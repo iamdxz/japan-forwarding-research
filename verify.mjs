@@ -6,7 +6,7 @@ const context=vm.createContext({});
 vm.runInContext(read('data.js')+';globalThis.data=RESEARCH',context);
 const data=context.data,ids=new Set(data.sources.map(s=>s.id));
 assert.equal(ids.size,data.sources.length,'Source IDs must be unique');
-assert.equal(data.vendors.length,8);
+assert.equal(data.vendors.length,10);
 for(const s of data.sources){assert.equal(new URL(s.url).protocol,'https:');assert.ok(['verified','conflict','partial'].includes(s.status));assert.ok(s.evidence&&s.boundary);}
 for(const v of data.vendors){
   assert.equal(v.cells.length,3);
@@ -47,6 +47,12 @@ assert.equal(quote('jgs','air',{packages:11}).min,5170);
 assert.equal(quote('jgs','air',{packages:2,weight:3}).min,3317.5,'Conditional two-parcel air discount');
 assert.equal(quote('jpgoodbuy','air').min,5600);
 assert.equal(quote('jpgoodbuy','sea').min,4150,'Use current displayed fee, add only known consolidation');
+assert.equal(quote('xiaojuanmao','air').min,5150,'Mainland tier 1 air tariff at 5kg');
+assert.equal(quote('xiaojuanmao','sea').min,4000,'Mainland tier 1 sea tariff at 5kg');
+assert.equal(quote('xiaojuanmao','air',{weight:3}).min,3650);
+assert.equal(quote('xiaojuanmao','sea',{weight:3}).min,3200);
+assert.equal(quote('xiaojuanmao','air',{weight:.4}).status,'unknown','Official air/sea table starts at 0.5kg');
+assert.equal(quote('xiaojuanmao','air',{packages:11}).min,5250,'One known over-10 consolidation fee');
 assert.equal(quote('transportjp','air').min,4645);
 assert.equal(quote('transportjp','air').max,4850);
 assert.equal(quote('transportjp','air').sortEligible,false);
@@ -59,7 +65,8 @@ assert.equal(quote('transportjp','air',{weight:.5}).status,'unknown','Conflictin
 assert.equal(quote('qihang','air').min,10000);
 assert.equal(quote('qihang','sea').status,'unknown');
 assert.equal(quote('sf518','air').status,'ineligible');
-assert.equal(data.report.rows.length,8);
+assert.equal(quote('shunxing','air').status,'unknown','No single verified flat rate without route and dimensions');
+assert.equal(data.report.rows.length,10);
 for(const row of data.report.rows)for(const ref of row.refs)assert.ok(ids.has(ref));
 const html=read('index.html');
 const htmlIds=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
@@ -67,4 +74,4 @@ assert.equal(htmlIds.length,new Set(htmlIds).size,'Unique HTML IDs');
 for(const match of app.matchAll(/\$\('([^']+)'\)/g))assert.ok(htmlIds.includes(match[1]),`DOM target missing: ${match[1]}`);
 for(const match of html.matchAll(/(?:src|href)="((?:styles\.css|app\.js|data\.js))(?:\?[^"\s]*)?"/g))assert.ok(existsSync(new URL(match[1],import.meta.url)));
 assert.ok(!html.includes('800<span>円'),'Old tail-box price removed');
-console.log(`PASS: 8 vendors, ${data.sources.length} sources; source integrity, price boundaries, volumetric threshold, invalid inputs, HTML targets.`);
+console.log(`PASS: 10 vendors, ${data.sources.length} sources; source integrity, price boundaries, volumetric threshold, invalid inputs, HTML targets.`);

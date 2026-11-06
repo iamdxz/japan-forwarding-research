@@ -33,6 +33,14 @@ function estimate(line,base,items,refs,notes=[],options={}){
 function getQuote(id,mode,p){
   const w=p.weight,n=p.packages;
   if(id==='sf518')return unavailable('资格不符','海外客户自购代收','ineligible',['s-elig','s-price']);
+  if(id==='xiaojuanmao'){
+    if(w<.5)return unavailable('低于价目首档','官网空运/船运表从0.5kg起列价','unknown',['xjm-price']);
+    const rates=RESEARCH.report.xiaojuanmao,idx=rates.upperBoundKg.findIndex(limit=>w<=limit+1e-9);
+    if(idx<0)return unavailable('超价表范围','官网普通线路最高列至30kg','unknown',['xjm-price']);
+    const base=mode==='air'?rates.airJPY[idx]:rates.seaJPY[idx],extra=Math.max(0,n-10)*100;
+    return estimate(mode==='air'?'普通航空':'船运',base,[{label:`超过10包合箱费（${Math.max(0,n-10)}包×100円）`,amount:extra}],['xjm-price','xjm-service'],['中国大陆第1地区官网价目；价目页未标明更新日期，寄出前复核。','普通合箱10包以内免费；收费纸箱、加固、保险、分拣等按需另计。','重入库费用在官网两处分别列100円/包与5元/包；尾货主动留到下一批及期限需先确认。'],{caption:'官网运费＋已知超包合箱费'});
+  }
+  if(id==='shunxing')return unavailable('官网计算器试算','需选具体线路并输入包裹尺寸；固定价目无法核实','unknown',['sx-calc','sx-price']);
   if(id==='haoku'){
     if(mode==='sea')return unavailable('海运价待询','未核验适用海运价目','unknown',['h-rate']);
     if(w>14.5)return unavailable('超过合箱重量上限','超过14.5kg，请分箱询价','unknown',['h-limit']);
