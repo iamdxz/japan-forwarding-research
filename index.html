@@ -2,99 +2,40 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="日本周边转运仓对照：分箱、尾箱、仓储、费用与官方来源。">
-  <meta name="theme-color" content="#183e36">
-  <title>日本转运仓对照 · 转运研究室</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23183e36'/%3E%3Cpath d='M10 15l10-5 10 5v13l-10 5-10-5zM10 15l10 5 10-5M20 20v13' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css?v=compact1">
-  <script src="data.js?v=compact1" defer></script>
-  <script src="app.js?v=compact1" defer></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="8家日本转运仓优缺点、尾货留库、打包沟通与空海运费用对比。">
+  <meta name="theme-color" content="#233e32">
+  <title>日本转运仓对比</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23233e32'/%3E%3Cpath d='M10 15l10-5 10 5v13l-10 5-10-5zM10 15l10 5 10-5M20 20v13' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=report1">
+  <script src="data.js?v=report1" defer></script>
+  <script src="app.js?v=report1" defer></script>
 </head>
 <body>
-<a class="skip" href="#main">跳至正文</a>
-<aside class="sidebar">
-  <a class="brand" href="#matrix"><span class="brand-icon" aria-hidden="true">↗</span><span>转运研究室</span></a>
-  <div class="side-label">日本 → 中国大陆</div>
-  <nav aria-label="章节导航">
-    <a class="active" href="#matrix"><span>01</span>仓库对照<span class="nav-count">8</span></a>
-    <a href="#vendors"><span>02</span>规则详情</a>
-    <a href="#pricing"><span>03</span>运费估算</a>
-    <a href="#inquiry"><span>04</span>询价模板</a>
-    <a href="#risks"><span>05</span>发货须知</a>
-    <a href="#sources"><span>06</span>官方来源</a>
-  </nav>
-  <div class="side-note">核验日期 <time datetime="2026-11-06">2026.11.06</time></div>
-</aside>
-<main id="main">
-  <section id="matrix" class="section">
-    <header class="section-heading compact-header">
-      <div><h1>日本转运仓对照</h1><p class="muted">自购周边 · 3kg+ · 5–10个入库包裹</p></div>
-      <button class="icon-button" id="printButton" title="打印 / 保存为 PDF" aria-label="打印研究报告">⎙</button>
-    </header>
-    <div class="toolbar">
-      <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索仓库、尾箱、费用…" aria-label="搜索仓库及规则"></label>
-      <label><span class="sr-only">仓库筛选</span><select id="filter"><option value="all">全部仓库</option><option value="control">控制权候选</option><option value="anime">周边适配</option><option value="risk">需注意限制</option></select></label>
-      <span class="result-count" id="resultCount" aria-live="polite"></span><button class="quiet-button" id="resetFilter">重置</button>
+<main class="page" id="main">
+  <header class="page-header">
+    <div class="brand"><h1>日本转运仓对比</h1><p class="subtitle">8家 · 自购周边寄往中国大陆</p></div>
+    <div class="header-meta"><span>资料核验 <time datetime="2026-11-06">2026.11.06</time></span></div>
+  </header>
+  <section class="calculator-bar" aria-label="统一比价参数">
+    <div class="form-main">
+      <label for="weight">预计打包重量 <span>kg</span><input id="weight" type="number" min="0.1" max="30" step="0.1" value="5" inputmode="decimal"></label>
+      <label for="packages">入库包裹数 <span>个</span><input id="packages" type="number" min="1" max="20" step="1" value="10" inputmode="numeric"></label>
+      <label for="fx">汇率（非实时） <span>100日元＝人民币</span><input id="fx" type="number" min="0.01" max="30" step="0.01" value="4.50" inputmode="decimal"></label>
     </div>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="仓库对照表">
-      <table id="matrixTable"><caption class="sr-only">日本周边转运仓规则对照</caption><thead><tr><th>仓库</th><th>分箱 / 尾箱</th><th>仓储</th><th>费用</th><th>待确认 / 限制</th></tr></thead><tbody id="matrixBody"></tbody></table>
-      <div class="empty hidden" id="emptyResults">没有匹配仓库，请清除筛选。</div>
-    </div>
-    <div class="table-foot"><span>円＝日元，元＝人民币</span><span>点仓库看详情 · 点编号看来源</span></div>
+    <details class="size-options"><summary>尺寸（选填，用于适用线路体积重）</summary><div class="size-fields"><label for="length">长 <span>cm</span><input id="length" type="number" min="0.1" max="300" step="0.1" placeholder="选填"></label><label for="width">宽 <span>cm</span><input id="width" type="number" min="0.1" max="300" step="0.1" placeholder="选填"></label><label for="height">高 <span>cm</span><input id="height" type="number" min="0.1" max="300" step="0.1" placeholder="选填"></label></div></details>
+    <div class="control-footer"><p class="price-note">单个出库箱的已知小计，统一折算人民币；箱材、加固、税费未计。</p><label for="sort">排序 <select id="sort"><option value="default">默认顺序</option><option value="air">空运已知费用</option><option value="sea">海运已知费用</option></select></label></div>
+    <p id="formError" class="form-error" role="alert"></p>
   </section>
-  <section id="vendors" class="section">
-    <div class="section-heading"><h2>规则详情</h2></div>
-    <div id="vendorDetails" class="vendor-list"></div>
-  </section>
-  <section id="pricing" class="section">
-    <div class="section-heading"><h2>运费估算</h2><p>基础运费，不含增值服务与税费。</p></div>
-    <div class="cost-layout">
-      <article class="calculator panel">
-        <div class="panel-title"><h3>单箱试算</h3><span class="badge neutral">日元</span></div>
-        <form id="calcForm">
-          <div class="input-grid">
-            <label>实重 <span>kg</span><input id="weight" type="number" min="0.01" max="100" step="0.01" value="4.2" required></label>
-            <label>长 <span>cm</span><input id="length" type="number" min="0.1" max="300" step="0.1" value="40" required></label>
-            <label>宽 <span>cm</span><input id="width" type="number" min="0.1" max="300" step="0.1" value="30" required></label>
-            <label>高 <span>cm</span><input id="height" type="number" min="0.1" max="300" step="0.1" value="20" required></label>
-          </div>
-          <div class="calc-volume"><span>体积重（cm³ ÷ 6000）</span><b id="vol">—</b></div>
-          <button class="primary-button" type="submit">计算 <span>↗</span></button><p id="calcError" class="error" role="alert"></p>
-        </form>
-        <div id="calcResult" class="calc-results" aria-live="polite"></div>
-        <details class="calc-help"><summary>计费规则与边界</summary><p class="fine" id="calcAssumptions"></p></details>
-      </article>
-      <div class="cost-side">
-        <article class="tail-note"><h3>0.2kg 尾箱示例</h3><div class="tail-price">0.2<span>kg</span> <span class="arrow">→</span> 900<span>円</span></div><p>15号库普通会员最低首重0.5kg，基础运费900円。<button class="ref" data-source="h-rate" aria-label="查看15号库费率来源">H1</button></p><div class="tail-rule">该仓不处理少量余货重新入库备注。<button class="ref" data-source="h-rule" aria-label="查看15号库分箱规则">H2</button></div></article>
-        <div class="note-box">试算不等于报价；尺寸、品类及线路可用性须另行确认。</div>
-      </div>
-    </div>
-    <details class="utility-details price-details"><summary>各仓计价明细 <span>＋</span></summary><div class="table-wrap price-table"><table><caption class="sr-only">各仓价格与计价边界</caption><thead><tr><th>仓库 / 费用项</th><th>价格 / 规则</th><th>限制</th></tr></thead><tbody id="pricingBody"></tbody></table></div></details>
-  </section>
-  <section id="inquiry" class="section">
-    <div class="section-heading"><h2>询价模板</h2></div>
-    <div class="inquiry-editor panel"><div class="panel-title"><span class="muted">可直接编辑</span><button class="quiet-button" id="copyInquiry">复制话术 ↗</button></div><label class="sr-only" for="inquiryText">询价内容，可编辑</label><textarea id="inquiryText" spellcheck="false"></textarea><p id="copyStatus" class="fine" role="status">编辑后复制给客服。</p></div>
-  </section>
-  <details id="risks" class="section utility-details">
-    <summary>发货与申报须知 <span>＋</span></summary>
-    <div class="risk-grid">
-      <article><h3>分箱与出库</h3><p>确认每箱清单、费用、尾箱留库及自动扣款规则，保留书面答复。</p></article>
-      <article><h3>特典与包装</h3><p>明确保留赠品、特典及原包装，确认防折、防刮和清点费用。</p></article>
-      <article><h3>最低首重与体积重</h3><p>分箱可能重复支付首重、箱材费；确认体积重及进位方式。</p></article>
-      <article><h3>仓储与理赔</h3><p>确认免费期限、弃货节点、易碎品及赠品赔付范围。</p></article>
-    </div>
-    <div class="customs" id="customsNote"></div>
-  </details>
-  <section id="sources" class="section">
-    <div class="section-heading"><h2>官方来源</h2><p>核验：2026-11-06 · 27条已核验，3条部分 / 待核验</p></div>
-    <details class="source-method"><summary>核验方法与限制</summary><p>优先核对官方原文；冲突并列，权限未明保留待确认。核验可能使用缓存，不代表实时更新或具体订单承诺。</p></details>
-    <div class="toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="sourceSearch" type="search" placeholder="搜索来源…" aria-label="搜索来源档案"></label><label><span class="sr-only">来源状态</span><select id="sourceFilter"><option value="all">全部来源</option><option value="verified">已核验</option><option value="conflict">有差异</option><option value="partial">部分 / 待核验</option></select></label><span id="sourceCount" class="result-count" aria-live="polite"></span></div>
-    <div id="sourceList" class="source-list"></div><div class="empty hidden" id="emptySources">没有匹配来源。</div>
-  </section>
-  <footer><a class="footer-brand" href="#matrix">转运研究室 ↗</a><p>价格及规则以具体线路确认，尾箱权限未明处保留待确认。</p><span>2026.11.06</span></footer>
+  <p class="table-note" id="comparisonNote">左右滑动查看全部列，点击金额看明细。各仓线路有差异；冲突价及有歧义的模型不参与费用排序。</p>
+  <div class="comparison-table-wrap" role="region" aria-label="8家仓库对比报表" tabindex="0">
+    <table id="compareTable"><caption class="sr-only">8家日本转运仓优缺点、尾货留库、打包沟通及空海费用</caption><thead><tr><th scope="col">仓库</th><th scope="col">优点 / 不足</th><th scope="col">尾货留到下批</th><th scope="col">打包沟通 / 空海调配</th><th scope="col">空运估算 <small>元</small></th><th scope="col">海运估算 <small>元</small></th></tr></thead><tbody id="comparisonBody"></tbody></table>
+  </div>
+  <footer class="footer-bar"><span>尾货＝少量剩余商品，留仓及空海分发条件需按订单确认。</span><div><button class="text-button" id="allSources">全部出处</button><button class="text-button" id="generalInquiry">复制询价</button><button class="text-button" id="printButton">打印</button></div></footer>
+  <p id="copyStatus" class="copy-status" role="status"></p>
 </main>
-<dialog id="sourceDialog" aria-labelledby="dialogTitle"><div class="dialog-top"><span class="kicker">来源依据</span><button class="icon-button" id="closeDialog" aria-label="关闭来源详情">×</button></div><div id="dialogContent"></div></dialog>
-<noscript><p class="noscript">请启用 JavaScript 显示仓库数据与交互。</p></noscript>
+<dialog id="vendorDialog" aria-labelledby="vendorDialogTitle"><div class="dialog-head"><h2 id="vendorDialogTitle">仓库信息</h2><button class="close-button" data-close="vendorDialog" aria-label="关闭仓库详情">×</button></div><div id="vendorDialogBody"></div></dialog>
+<dialog id="sourceDialog" aria-labelledby="sourceDialogTitle"><div class="dialog-head"><h2 id="sourceDialogTitle">官方依据</h2><button class="close-button" data-close="sourceDialog" aria-label="关闭来源详情">×</button></div><div id="sourceDialogBody"></div></dialog>
+<noscript><p>请启用 JavaScript 查看仓库对比及费用计算。</p></noscript>
 </body>
 </html>
