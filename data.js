@@ -54,3 +54,361 @@ const RESEARCH = {
       cells:[[{text:'免费仓储按会员/包裹类型至少30天；普通未提交包裹额外付费最长30天。',refs:['g-storage','g-old']}],[{text:'基础5包内免费合箱，第6包起100円；新箱80–350円。',refs:['g-service']}],[{text:'原箱不够可能自动换箱/分箱；飞鸟快线不支持分箱。未证实尾箱暂存。',refs:['g-service','g-route']}]],pending:'具体可用线路、分箱权限及尾箱可否重新入库？确认本单仓储起算及到期日。',analysis:'保留备用；额外60天规则本次未复现，不列为已证实差异；不以历史暂停暗示当前停运。',extra:[]}
   ]
 };
+
+RESEARCH.matrix = [
+  {
+    "id": "cosmos",
+    "warehouse": "COSMOS-LINE",
+    "split": {
+      "text": "包装可协商；未证实分箱逐箱确认、0.2kg尾箱留库。",
+      "refs": [
+        "c-home"
+      ],
+      "codes": [
+        "C1"
+      ]
+    },
+    "storage": {
+      "text": "免费仓储服务页60天、条款90天，冲突尚未解决。",
+      "refs": [
+        "c-service",
+        "c-terms"
+      ],
+      "codes": [
+        "C2",
+        "C3"
+      ]
+    },
+    "fees": {
+      "text": "手续费500円/次；5包后150円/包，国际运费待询。",
+      "refs": [
+        "c-service",
+        "c-price"
+      ],
+      "codes": [
+        "C2",
+        "C4"
+      ]
+    },
+    "conclusion": {
+      "text": "先询价：要求逐箱清单、完整费用与尾箱留库书面答复。",
+      "refs": [
+        "c-home",
+        "c-service",
+        "c-terms"
+      ],
+      "codes": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "kind": "analysis"
+    }
+  },
+  {
+    "id": "transportjp",
+    "warehouse": "日转网",
+    "split": {
+      "text": "可指定商品留库；超邮政尺寸或重量可不通知分拆退库。",
+      "refs": [
+        "r-faq",
+        "r-submit"
+      ],
+      "codes": [
+        "R1",
+        "R5"
+      ]
+    },
+    "storage": {
+      "text": "FAQ免费30天、首页180天冲突；不能外推打包后期限。",
+      "refs": [
+        "r-faq",
+        "r-home"
+      ],
+      "codes": [
+        "R1",
+        "R2"
+      ]
+    },
+    "fees": {
+      "text": "邮政两版价表冲突；合箱15/20包上限也不同，重新询价。",
+      "refs": [
+        "r-fee",
+        "r-route"
+      ],
+      "codes": [
+        "R3",
+        "R4"
+      ]
+    },
+    "conclusion": {
+      "text": "主动留库不等于强制分箱先确认；撤销重入库有条件收费。",
+      "refs": [
+        "r-faq",
+        "r-submit",
+        "r-cancel"
+      ],
+      "codes": [
+        "R1",
+        "R5",
+        "R6"
+      ]
+    }
+  },
+  {
+    "id": "qihang",
+    "warehouse": "起航转运 · 文具航空",
+    "split": {
+      "text": "可手动付款、付款前换线；不等于新分尾箱可以留库。",
+      "refs": [
+        "q-pay"
+      ],
+      "codes": [
+        "Q2"
+      ]
+    },
+    "storage": {
+      "text": "未提交的在库包裹30天免费；新分尾箱重新入库未明。",
+      "refs": [
+        "q-pay"
+      ],
+      "codes": [
+        "Q2"
+      ]
+    },
+    "fees": {
+      "text": "2000円/kg整kg进位；体积重超实重1.3倍时改用体积重。",
+      "refs": [
+        "q-line"
+      ],
+      "codes": [
+        "Q1"
+      ]
+    },
+    "conclusion": {
+      "text": "清关可能分箱；常规20kg与价表到30kg不一致，先确认。",
+      "refs": [
+        "q-line"
+      ],
+      "codes": [
+        "Q1"
+      ]
+    }
+  },
+  {
+    "id": "sf518",
+    "warehouse": "518 · 新潟机场店",
+    "split": {
+      "text": "支持基础分箱合箱；海外客户自购代收按FAQ不接受。",
+      "refs": [
+        "s-service",
+        "s-elig"
+      ],
+      "codes": [
+        "S2",
+        "S1"
+      ]
+    },
+    "storage": {
+      "text": "原则免费；超2个月或不用门店寄件等情形可能收费。",
+      "refs": [
+        "s-storage"
+      ],
+      "codes": [
+        "S3"
+      ]
+    },
+    "fees": {
+      "text": "基础操作免费，复杂打包另收费；所查价目页未列价格。",
+      "refs": [
+        "s-service",
+        "s-price"
+      ],
+      "codes": [
+        "S2",
+        "S4"
+      ]
+    },
+    "conclusion": {
+      "text": "海外居住者先核资格；无书面例外时，不作为可用仓。",
+      "refs": [
+        "s-elig"
+      ],
+      "codes": [
+        "S1"
+      ],
+      "kind": "analysis"
+    }
+  },
+  {
+    "id": "transbang",
+    "warehouse": "TRANSBANG",
+    "split": {
+      "text": "通知出货完成后不可取消；打包后付款不代表尾箱可留。",
+      "refs": [
+        "t-flow"
+      ],
+      "codes": [
+        "T2"
+      ]
+    },
+    "storage": {
+      "text": "未通知出货60天免费；包装通知付款后仅14天免费。",
+      "refs": [
+        "t-fee"
+      ],
+      "codes": [
+        "T1"
+      ]
+    },
+    "fees": {
+      "text": "≤10kg服务费50円/kg，国际邮费另计；重包1000円/包。",
+      "refs": [
+        "t-fee"
+      ],
+      "codes": [
+        "T1"
+      ]
+    },
+    "conclusion": {
+      "text": "20件商品内免集中包装人工费；先问尾箱能否不出货。",
+      "refs": [
+        "t-fee",
+        "t-flow"
+      ],
+      "codes": [
+        "T1",
+        "T2"
+      ]
+    }
+  },
+  {
+    "id": "jgs",
+    "warehouse": "吉速转运",
+    "split": {
+      "text": "强制服务不预先沟通；能否暂停仓库分箱、留尾箱未证实。",
+      "refs": [
+        "j-service"
+      ],
+      "codes": [
+        "J1"
+      ]
+    },
+    "storage": {
+      "text": "在库60天免费；待支付运单仅7天免费，之后另收费。",
+      "refs": [
+        "j-service"
+      ],
+      "codes": [
+        "J1"
+      ]
+    },
+    "fees": {
+      "text": "10包内合箱免费；分箱200円/分出包，分2包收400円。",
+      "refs": [
+        "j-service"
+      ],
+      "codes": [
+        "J1"
+      ]
+    },
+    "conclusion": {
+      "text": "先问撤销与重合箱叠加费；分箱后原包及新包重计入库费。",
+      "refs": [
+        "j-service"
+      ],
+      "codes": [
+        "J1"
+      ]
+    }
+  },
+  {
+    "id": "haoku",
+    "warehouse": "15号库 · 云归雁CC",
+    "split": {
+      "text": "默认接受合理分箱；少量尾货重入库备注不处理，称重自动扣款。",
+      "refs": [
+        "h-rule"
+      ],
+      "codes": [
+        "H2"
+      ]
+    },
+    "storage": {
+      "text": "普通会员免费60天；云归雁CC最多15个来源包裹合箱。",
+      "refs": [
+        "h-rate",
+        "h-combine"
+      ],
+      "codes": [
+        "H1",
+        "H3"
+      ]
+    },
+    "fees": {
+      "text": "普通会员首0.5kg900円，续0.1kg180円；整档有歧义。",
+      "refs": [
+        "h-rate"
+      ],
+      "codes": [
+        "H1"
+      ]
+    },
+    "conclusion": {
+      "text": "与尾箱自主留库需求冲突；打包后不能换线，勿默认可控。",
+      "refs": [
+        "h-rule"
+      ],
+      "codes": [
+        "H2"
+      ],
+      "kind": "analysis"
+    }
+  },
+  {
+    "id": "jpgoodbuy",
+    "warehouse": "JPGOODBUY",
+    "split": {
+      "text": "原箱装不下可自动换箱或分箱；飞鸟快线不支持分箱。",
+      "refs": [
+        "g-service",
+        "g-route"
+      ],
+      "codes": [
+        "G1",
+        "G4"
+      ]
+    },
+    "storage": {
+      "text": "至少30天免费、按会员及包裹类型；未提交付费延长最多30天。",
+      "refs": [
+        "g-storage",
+        "g-old"
+      ],
+      "codes": [
+        "G2",
+        "G3"
+      ]
+    },
+    "fees": {
+      "text": "基础5包免费合箱，第6包起100円/包；新箱80–350円。",
+      "refs": [
+        "g-service"
+      ],
+      "codes": [
+        "G1"
+      ]
+    },
+    "conclusion": {
+      "text": "先核具体线路与尾箱重新入库；打包未付最多5天免费。",
+      "refs": [
+        "g-route",
+        "g-storage"
+      ],
+      "codes": [
+        "G4",
+        "G2"
+      ]
+    }
+  }
+];

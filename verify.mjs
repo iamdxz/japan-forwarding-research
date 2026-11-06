@@ -38,6 +38,6 @@ const html=read('index.html');
 const htmlIds=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(htmlIds.length,new Set(htmlIds).size,'Unique HTML IDs');
 for(const match of app.matchAll(/\$\('([^']+)'\)/g))assert.ok(htmlIds.includes(match[1]),`DOM target missing: ${match[1]}`);
-for(const match of html.matchAll(/(?:src|href)="((?:styles\.css|app\.js|data\.js))"/g))assert.ok(existsSync(new URL(match[1],import.meta.url)));
+for(const match of html.matchAll(/(?:src|href)="((?:styles\.css|app\.js|data\.js))(?:\?[^"\s]*)?"/g))assert.ok(existsSync(new URL(match[1],import.meta.url)));
 assert.ok(!html.includes('800<span>円'),'Old tail-box price removed');
 console.log(`PASS: 8 vendors, ${data.sources.length} sources; source integrity, price boundaries, volumetric threshold, invalid inputs, HTML targets.`);
